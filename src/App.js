@@ -1,10 +1,13 @@
 import React from 'react';
+import Sidebar from "./components/Sidebar"
+import Chat from "./components/Chat"
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-    <h1>first commit</h1>
+    <div className="app">
+      <Sidebar/>
+      <Chat />
     </div>
   );
 }
