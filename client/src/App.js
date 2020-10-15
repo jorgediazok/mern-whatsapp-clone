@@ -2,13 +2,14 @@ import React,{useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import Sidebar from "./components/Sidebar"
 import Chat from "./components/Chat"
+import Login from "./components/Login"
 import Pusher from "pusher-js"
 import axios from "./axios"
 import './App.css';
 
 function App() {
-
-  const [messages, setMessages] = useState([])
+const [user, setUser] = useState(null)
+const [messages, setMessages] = useState([])
 
 useEffect(()=>{
   axios.get("/messages/sync").then(response =>{
@@ -29,13 +30,14 @@ useEffect(()=>{
  return () => {
     channel.unbind_all();
     channel.unsubscribe();  }
-
-
 },[messages])
 
 
   return (
     <div className="app">
+      {!user ? (
+        <Login />
+      ) : (
       <div className="app__body">
       <Router>        
       <Sidebar/>
@@ -50,7 +52,8 @@ useEffect(()=>{
 
         </Switch>      
       </Router>      
-      </div>     
+      </div>
+      )}     
     </div>
   );
 }
