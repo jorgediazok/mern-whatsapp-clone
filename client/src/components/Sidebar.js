@@ -1,18 +1,30 @@
 // @ts-nocheck
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import DonutLargeIcon from "@material-ui/icons/DonutLarge"
 import ChatIcon from "@material-ui/icons/Chat"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import {IconButton,Avatar} from "@material-ui/core"
-import { RoomService, SearchOutlined } from '@material-ui/icons'
+import { SearchOutlined } from '@material-ui/icons'
 import SidebarChat from "../components/SidebarChat"
+import db from "../firebase"
 import "../styles/Sidebar.css"
-import { useState } from 'react'
 
 
 function Sidebar() {
 
   const [rooms, setRooms] = useState([]) 
+
+  useEffect(()=>{
+   const unsubscribe = db.collection("rooms").onSnapshot(snapshot => (
+      setRooms(snapshot.docs.map(doc => ({
+        id: doc.id,
+        data: doc.data()
+      })))
+    ))
+    return () =>{
+      unsubscribe();
+    }
+  },[])
 
   return (
     <div className="sidebar">      

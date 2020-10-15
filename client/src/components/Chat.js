@@ -5,12 +5,22 @@ import "../styles/Chat.css"
 import { AttachFile, SearchOutlined, MoreVert } from '@material-ui/icons'
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon"
 import MicIcon from "@material-ui/icons/Mic"
+import db from "../firebase"
 import axios from "../axios"
 
 function Chat({messages}) {
   const [seed, setSeed] = useState("")
   const [input, setInput] = useState("")
- // const {roomId} = useParams()
+  const { roomId } = useParams()
+  const [roomName, setRoomName] = useState("")
+
+  useEffect(()=>{
+    if(roomId){
+      db.collection("rooms").doc(roomId).onSnapshot(snapshot=>(
+          setRoomName(snapshot.data().name)
+      ))
+    }
+  },[roomId])
 
   useEffect(() => {
     // @ts-ignore
@@ -37,7 +47,7 @@ function Chat({messages}) {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
 
         <div className="chat__headerInfo">
-        <h3>Room Name</h3>
+        <h3>{roomName}</h3>
         <p>Last seen at...</p>  
         </div> 
 

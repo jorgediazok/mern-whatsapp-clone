@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom"
 import {Avatar} from "@material-ui/core"
+import db from "../firebase"
 import "../styles/SidebarChat.css"
 
 function SidebarChat({addNewChat, id, name}) {
@@ -15,8 +16,9 @@ function SidebarChat({addNewChat, id, name}) {
   const createChat = () => {
     const roomName = prompt("Please enter namer for chat");
     if(roomName){
-    //do some stuff  
-    
+    db.collection("rooms").add({
+      name: roomName,
+    })    
     }
   }
 
