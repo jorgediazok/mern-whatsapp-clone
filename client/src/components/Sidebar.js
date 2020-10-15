@@ -11,7 +11,6 @@ import "../styles/Sidebar.css"
 
 
 function Sidebar() {
-
   const [rooms, setRooms] = useState([]) 
 
   useEffect(()=>{
