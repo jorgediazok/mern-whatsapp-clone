@@ -27,8 +27,20 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log('conected to DB');
-    const msgCollection = db.collection("Messages")
+    const msgCollection = db.collection("messages")
     const changeStream = msgCollection.watch()
+
+    changeStream.on("change", (change)=>{
+      if(change.operationType === "insert"){
+        const messageDetails = change.fullDocument;
+        pusher.trigger("messages", "inserted", {
+          name: messageDetails.user,
+          message: messageDetails.message,
+        })
+      } else{
+        console.log("Error triggering Pusher")
+      }
+    })
   }
 );
 
