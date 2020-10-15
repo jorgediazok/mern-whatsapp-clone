@@ -1,12 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Messages = require("./models/dbMessages")
+const Pusher = require("pusher")
 require('dotenv/config');
 
 
 //app config
 const app = express()
 const port = process.env.PORT || 9000
+
+const pusher = new Pusher({
+  appId: '1090640',
+  key: '4b4a0c6249a061ba3cc8',
+  secret: '2d823b0df0d7e90a75f0',
+  cluster: 'us2',
+  useTLS: true
+});
 
 //middleware
 app.use(express.json())
@@ -18,13 +27,29 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log('conected to DB');
+    const msgCollection = db.collection("Messages")
+    const changeStream = msgCollection.watch()
   }
 );
 
+const db = mongoose.connection;
+db.once("open", ()=>{
+  console.log("DB is connected")
+})
 
 //api routes
 app.get("/", (req,res,next)=>{
   res.status(200).send("hello world")
+})
+
+app.get("/messages/sync", (req,res,next)=>{
+  Messages.find((err,data)=>{
+    if(err){
+      res.status(500).send(err)
+    }else{
+      res.status(200).send(data)
+    }
+  })
 })
 
 app.post("/messages/new", (req,res,next)=>{
