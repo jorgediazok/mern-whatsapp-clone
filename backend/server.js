@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Messages = require("./models/dbMessages")
 const Pusher = require("pusher")
+const cors = require("cors")
 require('dotenv/config');
 
 
@@ -19,6 +20,12 @@ const pusher = new Pusher({
 
 //middleware
 app.use(express.json())
+app.use(cors())
+app.use((req,res,next)=>{
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Headers", "*")
+  next()
+})
 
 //DB config
 
