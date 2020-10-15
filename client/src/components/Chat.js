@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {useParams} from "react-router-dom"
 import {Avatar, IconButton} from "@material-ui/core"
 import "../styles/Chat.css"
 import { AttachFile, SearchOutlined, MoreVert } from '@material-ui/icons'
@@ -9,6 +10,7 @@ import axios from "../axios"
 function Chat({messages}) {
   const [seed, setSeed] = useState("")
   const [input, setInput] = useState("")
+  const {roomId} = useParams()
 
   useEffect(() => {
     // @ts-ignore
@@ -55,7 +57,7 @@ function Chat({messages}) {
 
       <div className="chat__body">
           {messages.map(message=>(
-            <p className={`chat__message ${message.received && "chat__receiver"}`}>
+            <p key={message.message} className={`chat__message ${message.received && "chat__receiver"}`}>
             <span className="chat__name">{message.name}</span>{message.message}             
             <span className="chat__timestamp">
               {message.timestamp}
