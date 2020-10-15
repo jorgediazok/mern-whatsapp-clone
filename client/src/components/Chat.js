@@ -10,7 +10,7 @@ import axios from "../axios"
 function Chat({messages}) {
   const [seed, setSeed] = useState("")
   const [input, setInput] = useState("")
-  const {roomId} = useParams()
+ // const {roomId} = useParams()
 
   useEffect(() => {
     // @ts-ignore
