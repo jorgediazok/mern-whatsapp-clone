@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import DonutLargeIcon from "@material-ui/icons/DonutLarge"
 import ChatIcon from "@material-ui/icons/Chat"
@@ -39,8 +40,7 @@ function Sidebar() {
           </div>
 
           <div className="sidebar__chats">
-          <SidebarChat />  
-          <SidebarChat />  
+          <SidebarChat addNewChat/>  
           <SidebarChat />  
           <SidebarChat />  
           <SidebarChat />  
