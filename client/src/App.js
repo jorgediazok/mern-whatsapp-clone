@@ -5,10 +5,11 @@ import Chat from "./components/Chat"
 import Login from "./components/Login"
 import Pusher from "pusher-js"
 import axios from "./axios"
+import {useStateValue} from "./context/StateProvider"
 import './App.css';
 
 function App() {
-const [user, setUser] = useState(null)
+const [{user}, dispatch] = useStateValue();
 const [messages, setMessages] = useState([])
 
 useEffect(()=>{
